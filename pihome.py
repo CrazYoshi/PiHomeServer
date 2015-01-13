@@ -96,7 +96,7 @@ def dht():
 
 def dhtRead():
 	try:
-		logger.info('dhtRead request received')
+		logger.debug('dhtRead request received')
 		humidity, temperature = Adafruit_DHT.read_retry(ht, pin['dht'])
 		if humidity is not None and temperature is not None:
 			return temperature,humidity
@@ -152,21 +152,27 @@ def wait_for_auth(eventType,eventDescription):
                 logger.error('Exception in wait_for_auth: %s',e)
 
 def selectEvents():	
-	logger.info('selectEvents request received')
+	logger.dubug('selectEvents request received')
 	return sql.selectEvents(dbname)
 
 def selectDHTinfo():
-	logger.info('selectDHTinfo request received')
+	logger.debug('selectDHTinfo request received')
 	return sql.selectDHTinfo(dbname)
 
 def selectEventNotification():
-	logger.info('selectNotificationEvents request received')
+	logger.debug('selectNotificationEvents request received')
 	return sql.selectEventNotification(dbname)
 
 def deleteEvent(eventIdList):
-	logger.info('deleteEvent request received')
+	logger.debug('deleteEvent request received')
 	for obj in eventIdList:
 		sql.deleteEvent(dbname,obj)
+	return sql.selectEvents(dbname)
+
+def updateEventNotification(eventIdList):
+	logger.debug(' updateEventNotification request received')
+	for event in eventIdList:
+		sql.updateEventNotification(dbname,event)
 	return sql.selectEvents(dbname)
 
 # Threading HTTP-Server
@@ -177,7 +183,8 @@ class RequestHandler(pyjsonrpc.HttpRequestHandler): # Register public JSON-RPC m
 		selectDHTinfo = selectDHTinfo,
 		selectEventNotification = selectEventNotification,
 		ping = ping,
-		deleteEvent = deleteEvent
+		deleteEvent = deleteEvent,
+		updateEventNotification = updateEventNotification
 	)
 
 # Daemon class	

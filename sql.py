@@ -37,7 +37,7 @@ def insertDHT(dbname,temperature,humidity):
 def selectEvents(dbname):
 	con = lite.connect(dbname)
 	cur = con.cursor()
-	cur.execute("SELECT id,eventType,eventDescription,ts FROM events ORDER BY ts DESC LIMIT 15")
+	cur.execute("SELECT id,eventType,eventDescription,ts,isNotified FROM events ORDER BY ts DESC LIMIT 15")
 	rows = cur.fetchall()
 	con.close()
 	return rows
@@ -55,6 +55,13 @@ def selectEventNotification(dbname):
         cur = con.cursor()
         cur.execute("SELECT id,eventType,eventDescription,ts FROM events WHERE isNotified = 0")
         rows = cur.fetchall()
-	cur.execute("UPDATE events SET isNotified = 1 WHERE isNotified = 0")
         con.close()
         return rows
+
+def updateEventNotification(dbname,eventId):
+	con = lite.connect(dbname)
+        cur = con.cursor()
+	cur.execute("UPDATE events SET isNotified = 1 WHERE id=?",(eventId,))
+	con.commit()
+	con.close()
+
