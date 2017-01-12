@@ -1,0 +1,12 @@
+{
+	"HTTPServer": {
+		"Port": 8080,
+		"ArduinoUrl": "http://192.168.1.9/arduino/get"
+	},
+	"Database": {
+		"Path": "/home/pi/pihome/pihome.db"
+	},
+	"History": {
+		"SleepTime": 3600
+	}
+}

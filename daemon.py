@@ -132,3 +132,4 @@ class Daemon:
 		You should override this method when you subclass Daemon. It will be called before the process has been
 		stopped by stop()
 		"""
+
