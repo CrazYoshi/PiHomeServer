@@ -46,6 +46,7 @@ class httpHandler(BaseHTTPRequestHandler):
 		if response is not None:
 			logger.debug('Sending reponse..')
 			self.send_response(200)
+			self.send_header('Access-Control-Allow-Origin', '*')
 			self.send_header('Content-type','application/json')
 			self.end_headers()
 			# Send the html message
